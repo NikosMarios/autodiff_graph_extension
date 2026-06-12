@@ -1,0 +1,3 @@
+[submodule "external/stasinos_and_boura_repository"]
+	path = external/stasinos_and_boura_repository
+	url = https://github.com/stasinos/machine_learning.git
