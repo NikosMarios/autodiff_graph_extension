@@ -1,0 +1,11 @@
+graph TD
+  X["x"]
+  EXP["exp"]
+  SIN["sin"]
+  Y["output"]
+  LOSS["loss"]
+  X --> EXP --> SIN --> Y --> LOSS
+  LOSS -. backward / gradients .-> Y
+  Y -.-> SIN
+  SIN -.-> EXP
+  EXP -.-> X
