@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+<<<<<<< HEAD
 import shutil
 import os
 import sys
@@ -16,10 +17,14 @@ if str(REPO_ROOT) not in sys.path:
 MPL_CONFIG_DIR = REPO_ROOT / "demo_outputs" / "matplotlib"
 MPL_CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 os.environ.setdefault("MPLCONFIGDIR", str(MPL_CONFIG_DIR))
+=======
+from pathlib import Path
+>>>>>>> 9b3b4eb4091c6120f728155185ff50001ff8fc13
 
 from external.stasinos_and_boura_repository.math_expr.executor import execute as original_execute
 
 try:
+<<<<<<< HEAD
     from math_expr.expression_graph import Node, parse_program_to_tree
 except ImportError:  # pragma: no cover - supports running examples from inside math_expr/
     from expression_graph import Node, parse_program_to_tree
@@ -77,6 +82,18 @@ def execute_with_tree(
     *,
     return_tree: bool = False,
 ):
+=======
+    from math_expr.expression_graph import parse_program_to_tree
+except ImportError:  # pragma: no cover - supports running examples from inside math_expr/
+    from expression_graph import parse_program_to_tree
+
+
+def load_program_from_graph_file(path: str) -> str:
+    return Path(path).read_text(encoding="utf-8")
+
+
+def execute_with_tree(graph_path: str, x=None, *, return_tree: bool = False):
+>>>>>>> 9b3b4eb4091c6120f728155185ff50001ff8fc13
     """
     Read a .graph file, optionally parse it to an expression tree, then call
     the original executor without changing its implementation.
@@ -84,6 +101,7 @@ def execute_with_tree(
     The original executor accepts a program stem, not a path or program string:
     execute("sine", x) opens graphs/sine.graph relative to the process cwd.
     """
+<<<<<<< HEAD
     result, tree = evaluate_graph_with_tree(graph_path, x)
 
     if return_tree:
@@ -107,3 +125,13 @@ def _original_executor_workspace(graph_file: Path) -> Iterator[str]:
     finally:
         os.chdir(previous_cwd)
         shutil.rmtree(workspace_path, ignore_errors=True)
+=======
+    program = load_program_from_graph_file(graph_path)
+    tree = parse_program_to_tree(program) if return_tree else None
+
+    y = original_execute(Path(graph_path).stem, x)
+
+    if return_tree:
+        return y, tree
+    return y
+>>>>>>> 9b3b4eb4091c6120f728155185ff50001ff8fc13
