@@ -217,3 +217,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.pytest_cache/
+pytest-cache-files-*/
+**/.pytest_cache/
+**/pytest-cache-files-*/
+
+
+demo_outputs/executor_adapter_tmp/
+demo_outputs/executor_adapter_work/
+demo_outputs/matplotlib/

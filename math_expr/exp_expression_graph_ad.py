@@ -1,6 +1,11 @@
 import torch
 
-from expression_graph import Node, parse_program_to_tree, tree_to_string
+try:
+    from math_expr.expression_graph import Node, parse_program_to_tree, tree_to_string
+    from math_expr.module_from_tree import node_to_module
+except ImportError:  # pragma: no cover - supports running from inside math_expr/
+    from expression_graph import Node, parse_program_to_tree, tree_to_string
+    from module_from_tree import node_to_module
 
 
 def evaluate_tree_torch(node: Node, x: torch.Tensor) -> torch.Tensor:
@@ -31,21 +36,17 @@ def evaluate_tree_torch(node: Node, x: torch.Tensor) -> torch.Tensor:
 def main():
     program = "sin(), exp()"
     tree = parse_program_to_tree(program)
+    model = node_to_module(tree)
+
     x = torch.linspace(-1.0, 1.0, steps=5, requires_grad=True)
-    y = evaluate_tree_torch(tree, x)
+    y = model(x)
     loss = (y ** 2).mean()
     loss.backward()
 
-    print("Expression:")
-    print(tree_to_string(tree))
-    print()
-    print("Loss:")
-    print(loss.item())
-    print()
-    print("x.grad:")
-    print(x.grad)
-    print()
-    print("Gradients are propagated through the same expression graph structure used to represent the DSL program.")
+    print("Expression:", tree_to_string(tree))
+    print("Loss:", loss.item())
+    print("x.grad:", x.grad)
+    print("Gradients flow through the same module graph that mirrors the expression tree.")
 
 
 if __name__ == "__main__":
