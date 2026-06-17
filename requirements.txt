@@ -6,3 +6,4 @@ scikit-learn
 pydot
 torch
 graphviz
+networks

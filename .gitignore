@@ -230,3 +230,4 @@ pytest-cache-files-*/
 demo_outputs/executor_adapter_tmp/
 demo_outputs/executor_adapter_work/
 demo_outputs/matplotlib/
+demo_outputs*
